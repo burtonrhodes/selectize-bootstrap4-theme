@@ -3,10 +3,11 @@
   "version": "2.0.2",
   "license": "Apache-2.0",
   "main": "index.js",
-  "description": "Selectize Theme for Bootstrap 4",
+  "description": "Selectize Theme for Bootstrap 4.6",
   "keywords": [
     "bootstrap",
     "bootstrap4",
+    "bootstrap4.6",
     "css",
     "sass",
     "scss",
@@ -19,7 +20,7 @@
     "bootstrap": "^4.6.1"
   },
   "peerDependencies": {
-    "selectize": "^0.12.6"
+    "selectize": "git+https://github.com/burtonrhodes/selectize.js.git"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
@@ -27,7 +28,7 @@
     "gulp-sass": "^5.1.0",
     "sass": "^1.57.1",
     "lodash": "^4.17.21",
-    "selectize": "^0.12.6"
+    "selectize": "git+https://github.com/burtonrhodes/selectize.js.git"
   },
   "files": [
     "dist/css/*.css",

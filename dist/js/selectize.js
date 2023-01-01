@@ -1179,6 +1179,11 @@
 			onSearchChange   : settings.loadThrottle === null ? self.onSearchChange : debounce(self.onSearchChange, settings.loadThrottle)
 		});
 	
+		// Make sure delimiters is an array
+		if (this.settings.delimiters && !Array.isArray(this.settings.delimiters)) {
+			this.settings.delimiters = new Array(this.settings.delimiters);
+		}
+	
 		// search system
 		self.sifter = new Sifter(this.options, {diacritics: settings.diacritics});
 	
@@ -1293,9 +1298,9 @@
 				$control_input.attr('placeholder', settings.placeholder);
 			}
 	
-			// if splitOn was not passed in, construct it from the delimiter to allow pasting universally
-			if (!self.settings.splitOn && self.settings.delimiter) {
-				var delimiterEscaped = self.settings.delimiter.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
+			// if splitOn was not passed in, construct it from the delimiters to allow pasting universally
+			if (!self.settings.splitOn && self.settings.delimiters) {
+				var delimiterEscaped = self.settings.delimiters[0].replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&');
 				self.settings.splitOn = new RegExp('\\s*' + delimiterEscaped + '+\\s*');
 			}
 	
@@ -1580,10 +1585,16 @@
 		 * @returns {boolean}
 		 */
 		onKeyPress: function(e) {
+			var self = this;
+	
 			if (this.isLocked) return e && e.preventDefault();
 			var character = String.fromCharCode(e.keyCode || e.which);
-			if (this.settings.create && this.settings.mode === 'multi' && character === this.settings.delimiter) {
-				this.createItem();
+			if (this.settings.create && this.settings.mode === 'multi' && this.settings.delimiters.includes(character)) {
+				this.createItem(null, function() {
+					if (self.settings.closeAfterSelect) {
+						self.close();
+					}
+				});
 				e.preventDefault();
 				return false;
 			}
@@ -1911,7 +1922,7 @@
 			if (this.tagType === TAG_SELECT && this.$input.attr('multiple')) {
 				return this.items;
 			} else {
-				return this.items.join(this.settings.delimiter);
+				return this.items.join(this.settings.delimiters[0]);
 			}
 		},
 	
@@ -2209,7 +2220,6 @@
 	
 			for (i = 0; i < n; i++) {
 				option      = self.options[results.items[i].id];
-				option_html = self.render('option', option);
 				optgroup    = option[self.settings.optgroupField] || '';
 				optgroups   = $.isArray(optgroup) ? optgroup : [optgroup];
 	
@@ -2222,6 +2232,7 @@
 						groups[optgroup] = document.createDocumentFragment();
 						groups_order.push(optgroup);
 					}
+	                option_html = self.render('option', option);
 					groups[optgroup].appendChild(option_html);
 				}
 			}
@@ -3249,7 +3260,8 @@
 			}
 	
 			// pull markup from cache if it exists
-			if (cache) {
+	        // BRhodes 9/6/2020: bug fix. Cache auto-removes option if duplicate values exist in multiple optgroups
+			if (cache && !data.optgroup) {
 				if (!isset(self.renderCache[templateName])) {
 					self.renderCache[templateName] = {};
 				}
@@ -3279,7 +3291,7 @@
 			}
 	
 			// update cache
-			if (cache) {
+	        if (cache && !data.optgroup) {
 				self.renderCache[templateName][value] = html[0];
 			}
 	
@@ -3328,7 +3340,7 @@
 		optgroups: [],
 	
 		plugins: [],
-		delimiter: ',',
+		delimiters: [','],
 		splitOn: null, // regexp or string for splitting up values from a paste command
 		persist: true,
 		diacritics: true,
@@ -3430,7 +3442,7 @@
 			if (!data_raw) {
 				var value = $.trim($input.val() || '');
 				if (!settings.allowEmptyOption && !value.length) return;
-				values = value.split(settings.delimiter);
+				values = value.split(settings.delimiters[0]);
 				for (i = 0, n = values.length; i < n; i++) {
 					option = {};
 					option[field_label] = values[i];
