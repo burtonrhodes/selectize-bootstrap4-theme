@@ -1,7 +1,7 @@
-var gulp = require('gulp');
-var sass = require('gulp-sass');
-var pug = require('gulp-pug');
-
+const gulp = require('gulp');
+const pug = require('gulp-pug');
+const sass = require('gulp-sass')(require('sass'));
+ 
 gulp.task('sass', () => {
     return gulp
         .src('scss/selectize.bootstrap4.scss')
@@ -22,7 +22,7 @@ gulp.task('examples-html', () => {
         .pipe(gulp.dest('dist'));
 });
 
-gulp.task('default', ['sass', 'examples-selectize', 'examples-html'], () => {
+gulp.task('default', gulp.series('sass', 'examples-selectize', 'examples-html'), () => {
     gulp.watch(['scss/*.scss'], ['sass']);
     gulp.watch(['template/*.pug'], ['examples-html']);
 });

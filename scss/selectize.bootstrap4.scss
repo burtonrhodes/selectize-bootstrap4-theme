@@ -215,7 +215,7 @@
 
     &.single {
       &:after {
-        $selectize-input-arrow-width-half: $selectize-input-arrow-width / 2;
+        $selectize-input-arrow-width-half: calc($selectize-input-arrow-width / 2);
         $selectize-arrow-height: 1.732050808 * $selectize-input-arrow-width-half;
 
         border-color: $selectize-input-arrow-color transparent transparent transparent;
@@ -224,7 +224,7 @@
         content: '';
         display: block;
         height: 0;
-        margin-top: -1 * $selectize-arrow-height / 2;
+        margin-top: -1 * calc($selectize-arrow-height / 2);
         position: absolute;
         top: 50%;
         right: $selectize-input-padding-x;
