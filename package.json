@@ -6,8 +6,8 @@
   "description": "Selectize Theme for Bootstrap 4.6",
   "keywords": [
     "bootstrap",
-    "bootstrap4",
-    "bootstrap4.6",
+    "bootstrap5",
+    "bootstrap5.2",
     "css",
     "sass",
     "scss",
@@ -17,16 +17,16 @@
     "web"
   ],
   "dependencies": {
-    "bootstrap": "^4.6.1"
+    "bootstrap": "^5.2.3"
   },
   "peerDependencies": {
     "selectize": "git+https://github.com/burtonrhodes/selectize.js.git"
   },
   "devDependencies": {
     "gulp": "^4.0.2",
-    "gulp-pug": "^4.0.1",
+    "gulp-pug": "^5.0.0",
     "gulp-sass": "^5.1.0",
-    "sass": "^1.57.1",
+    "sass": "^1.62.1",
     "lodash": "^4.17.21",
     "selectize": "git+https://github.com/burtonrhodes/selectize.js.git"
   },
