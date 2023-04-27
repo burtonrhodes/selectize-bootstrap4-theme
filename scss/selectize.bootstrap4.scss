@@ -74,8 +74,7 @@
         text-indent: 0 !important;
         -webkit-user-select: auto !important;
 
-        &:hover,
-        &:focus {
+        @include hover-focus {
           outline: none !important;
         }
 
@@ -161,8 +160,7 @@
         }
 
         .option {
-          &:hover,
-          &:focus {
+          @include hover-focus {
             color: $selectize-dropdown-option-color-active;
             text-decoration: none;
             @include gradient-bg($selectize-dropdown-option-bg-active);
@@ -334,8 +332,7 @@
     &:not(:first-child) {
       &.selectize-control {
         .selectize-input {
-          border-top-left-radius: valid-radius(0);
-          border-bottom-left-radius: valid-radius(0);
+          @include border-left-radius(0);
         }
       }
     }
@@ -343,8 +340,7 @@
     &:not(:last-child) {
       &.selectize-control {
         .selectize-input {
-          border-top-right-radius: valid-radius(0);
-          border-bottom-right-radius: valid-radius(0);
+          @include border-right-radius(0);
         }
       }
     }
